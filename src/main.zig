@@ -2,16 +2,17 @@ const sdl3 = @import("sdl3");
 const std = @import("std");
 
 const fps = 60;
-const screen_width = 640;
-const screen_height = 480;
+const screen_width = 400;
+const screen_height = 400;
 
-fn setPixel(ssurface: sdl3.surface.Surface, x: i16, y: i16, red: u8, green: u8, blue: u8) void {
-    _ = x;
-    _ = y;
-    _ = red;
-    _ = green;
-    _ = blue;
-    ssurface.lock();
+fn setPixel(ssurface: sdl3.surface.Surface, x: usize, y: usize, red: u8, green: u8, blue: u8) !void {
+    try ssurface.lock();
+    var pixels: []u8 = ssurface.getPixels().?;
+    const bytes_pixel = ssurface.getFormat().?.getBytesPerPixel();
+    pixels[y * ssurface.getPitch() + x * bytes_pixel + 0] = blue;
+    pixels[y * ssurface.getPitch() + x * bytes_pixel + 1] = green;
+    pixels[y * ssurface.getPitch() + x * bytes_pixel + 2] = red;
+    ssurface.unlock();
 }
 
 pub fn main() !void {
@@ -33,6 +34,15 @@ pub fn main() !void {
 
         const surface = try window.getSurface();
         try surface.fillRect(null, surface.mapRgb(128, 255, 255));
+        for (0..screen_width) |i| {
+            for (0..screen_height) |l| {
+                if (i % 2 == 1) {
+                    if (l % 2 == 0) {
+                        try setPixel(surface, i, l, 255, 0, 0);
+                    }
+                }
+            }
+        }
         try window.updateSurface();
 
         while (sdl3.events.poll()) |event|
