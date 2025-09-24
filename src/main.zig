@@ -25,21 +25,6 @@ pub fn main() !void {
 
         const surface = try window.getSurface();
         try surface.fillRect(null, surface.mapRgb(128, 255, 255));
-        // B
-        try draw.bresenhamsLine(surface, 10, 10, 10, 90, 3);
-        try draw.drawQuadraticBezier(surface, 10, 10, 50, 10, 10, 50, 3);
-        try draw.drawQuadraticBezier(surface, 10, 50, 50, 50, 10, 90, 3);
-        // E
-        try draw.bresenhamsLine(surface, 50, 10, 50, 90, 3);
-        try draw.bresenhamsLine(surface, 50, 10, 80, 10, 3);
-        try draw.bresenhamsLine(surface, 50, 50, 80, 50, 3);
-        try draw.bresenhamsLine(surface, 50, 90, 80, 90, 3);
-        // Fuck it im not writing the rest
-
-        const x = sdl3.mouse.getState().x;
-        const y = sdl3.mouse.getState().y;
-
-        try draw.drawCubicBezier(surface, 10, 10, @intFromFloat(x), @intFromFloat(y), 50, 50, 390, 10, 3);
 
         try window.updateSurface();
 
