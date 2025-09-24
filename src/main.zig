@@ -2,7 +2,7 @@ const sdl3 = @import("sdl3");
 const std = @import("std");
 const draw = @import("draw.zig");
 
-const fps = 60;
+const fps = 120;
 const screen_width = 400;
 const screen_height = 400;
 
@@ -25,6 +25,9 @@ pub fn main() !void {
 
         const surface = try window.getSurface();
         try surface.fillRect(null, surface.mapRgb(128, 255, 255));
+
+        const mouseState = sdl3.mouse.getState();
+        try draw.drawQuadraticBezier(surface, 10, 10, @as(u64, @intFromFloat(mouseState.x)), @as(u64, @intFromFloat(mouseState.y)), 390, 10, 5);
 
         try window.updateSurface();
 
