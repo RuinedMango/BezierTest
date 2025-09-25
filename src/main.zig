@@ -27,7 +27,9 @@ pub fn main() !void {
         try surface.fillRect(null, surface.mapRgb(128, 255, 255));
 
         const mouseState = sdl3.mouse.getState();
-        try draw.drawQuadraticBezier(surface, 10, 10, @as(u64, @intFromFloat(mouseState.x)), @as(u64, @intFromFloat(mouseState.y)), 390, 10, 5);
+        try surface.lock();
+        try draw.drawQuadraticBezier(surface, 10, 10, @as(i64, @intFromFloat(mouseState.x)), @as(i64, @intFromFloat(mouseState.y)), 390, 390, 3);
+        surface.unlock();
 
         try window.updateSurface();
 
