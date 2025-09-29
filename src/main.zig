@@ -1,6 +1,7 @@
 const sdl3 = @import("sdl3");
 const std = @import("std");
 const draw = @import("draw.zig");
+const font = @import("truetype.zig");
 
 const fps = 120;
 const screen_width = 400;

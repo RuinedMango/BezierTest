@@ -1,30 +1,40 @@
 const std = @import("std");
 
 fn beU8(buf: []const u8, idx: usize) u8 {
-    return buf[idx];
+    return std.mem.readInt(u8, buf[idx], std.builtin.Endian.big);
+}
+
+fn beI8(buf: []const u8, idx: usize) i8 {
+    return std.mem.readInt(i8, buf[idx], std.builtin.Endian.big);
 }
 
 fn beU16(buf: []const u8, idx: usize) u16 {
-    return (@as(u16, buf[idx]) << 8) | @as(u16, buf[idx + 1]);
+    return std.mem.readInt(u16, buf[idx], std.builtin.Endian.big);
 }
 
 fn beI16(buf: []const u8, idx: usize) i16 {
-    return @as(i16, beU16(buf, idx));
+    return std.mem.readInt(i16, buf[idx], std.builtin.Endian.big);
+}
+
+fn beU24(buf: []const u8, idx: usize) u24 {
+    return std.mem.readInt(u24, buf[idx], std.builtin.Endian.big);
 }
 
 fn beU32(buf: []const u8, idx: usize) u32 {
-    return (@as(u32, buf[idx]) << 24) |
-        (@as(u32, buf[idx + 1]) << 16) |
-        (@as(u32, buf[idx + 2]) << 8) |
-        (@as(u32, buf[idx + 3]));
+    return std.mem.readInt(u32, buf[idx], std.builtin.Endian.big);
 }
 
 fn beI32(buf: []const u8, idx: usize) i32 {
-    return @as(i32, beU32(buf, idx));
+    return std.mem.readInt(i32, buf[idx], std.builtin.Endian.big);
 }
 
 fn beFixed(buf: []const u8, idx: usize) f32 {
     // 16.16 fixed -> float
     const v = beI32(buf, idx);
     return @as(f32, @floatFromInt(v)) / 65536.0;
+}
+
+pub fn readFile() !void {
+    const file = try std.fs.cwd().openFile("font.otf", .{});
+    defer file.close();
 }
