@@ -1,7 +1,7 @@
 const sdl3 = @import("sdl3");
 const std = @import("std");
 const draw = @import("draw.zig");
-const font = @import("truetype.zig");
+const font = @import("opentype.zig");
 
 const fps = 120;
 const screen_width = 400;
@@ -9,6 +9,8 @@ const screen_height = 400;
 
 pub fn main() !void {
     defer sdl3.shutdown();
+
+    try font.readFile();
 
     const init_flags = sdl3.InitFlags{ .video = true };
     try sdl3.init(init_flags);
